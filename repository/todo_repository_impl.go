@@ -4,7 +4,6 @@ import (
 	"context"
 	"todo-backend/app"
 	"todo-backend/model/domain"
-	"todo-backend/model/web"
 )
 
 type TodoRepositoryImpl struct {
@@ -17,22 +16,52 @@ func NewTodoRepository(server *app.Server) TodoRepository {
 	}
 }
 
-func (r *TodoRepositoryImpl) Save(ctx context.Context, todo web.TodoCreateRequest) domain.Todo {
-	panic("not implemented") // TODO: Implement
+func (repository *TodoRepositoryImpl) Save(ctx context.Context, todo domain.Todo) (domain.Todo, error) {
+	return todo, repository.
+		Server.
+		DB.WithContext(ctx).
+		Create(&todo).Error
 }
 
-func (r *TodoRepositoryImpl) Update(ctx context.Context, todo web.TodoCreateRequest) domain.Todo {
-	panic("not implemented") // TODO: Implement
+func (repository *TodoRepositoryImpl) Update(ctx context.Context, todo domain.Todo) (domain.Todo, error) {
+	if err := repository.
+		Server.DB.
+		WithContext(ctx).
+		First(&todo, todo.ID).Error; err != nil {
+		return todo, err
+	}
+
+	return todo, repository.
+		Server.DB.
+		WithContext(ctx).
+		Model(&todo).
+		Updates(&todo).Error
 }
 
-func (r *TodoRepositoryImpl) Delete(ctx context.Context, todoID uint) {
-	panic("not implemented") // TODO: Implement
+func (repository *TodoRepositoryImpl) Delete(ctx context.Context, todo domain.Todo) error {
+	if err := repository.
+		Server.DB.
+		WithContext(ctx).
+		First(&todo, todo.ID).Error; err != nil {
+		return err
+	}
+
+	return repository.
+		Server.DB.
+		WithContext(ctx).
+		Delete(&todo).Error
 }
 
-func (r *TodoRepositoryImpl) FindByID(ctx context.Context, todoID uint) domain.Todo {
-	panic("not implemented") // TODO: Implement
+func (repository *TodoRepositoryImpl) FindByID(ctx context.Context, todoID uint) (todo domain.Todo, err error) {
+	return todo, repository.
+		Server.DB.
+		WithContext(ctx).
+		First(&todo, todoID).Error
 }
 
-func (r *TodoRepositoryImpl) FindAll(ctx context.Context) []domain.Todo {
-	panic("not implemented") // TODO: Implement
+func (repository *TodoRepositoryImpl) FindAll(ctx context.Context) (todos []domain.Todo, err error) {
+	return todos, repository.
+		Server.DB.
+		WithContext(ctx).
+		Find(&todos).Error
 }
