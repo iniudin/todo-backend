@@ -1,0 +1,2 @@
+# GET TODO 
+GET localhost:8000/todos
