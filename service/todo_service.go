@@ -2,12 +2,13 @@ package service
 
 import (
 	"context"
+	"todo-backend/model/web"
 )
 
 type TodoService interface {
-	Create(ctx context.Context) error
-	Update(ctx context.Context) error
-	Delete(ctx context.Context) error
-	FindByID(ctx context.Context) error
-	FindAll(ctx context.Context) error
+	Create(ctx context.Context, request web.TodoCreateRequest) web.TodoResponse
+	Update(ctx context.Context, request web.TodoCreateRequest) web.TodoResponse
+	Delete(ctx context.Context, todoID uint)
+	FindByID(ctx context.Context, todoID uint) web.TodoResponse
+	FindAll(ctx context.Context) []web.TodoResponse
 }

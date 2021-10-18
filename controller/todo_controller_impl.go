@@ -1,15 +1,34 @@
 package controller
 
-import "github.com/labstack/echo/v4"
+import (
+	"net/http"
+	"todo-backend/model/web"
+	"todo-backend/service"
+
+	"github.com/labstack/echo/v4"
+)
 
 type TodoControllerImpl struct {
+	Service service.TodoService
 }
 
-func NewTodoController() TodoController {
-	return &TodoControllerImpl{}
+func NewTodoController(service service.TodoService) TodoController {
+	return &TodoControllerImpl{
+		Service: service,
+	}
 }
 func (controller *TodoControllerImpl) Create(c echo.Context) error {
-	panic("not implemented") // TODO: Implement
+	todo := new(web.TodoCreateRequest)
+	if err := c.Bind(&todo); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := c.Validate(&todo); err != nil {
+		return c.JSON(http.StatusBadRequest, "Terdapat value yang kosong")
+	}
+
+	todoResponse := controller.Service.Create(c.Request().Context(), *todo)
+	return c.JSON(http.StatusOK, todoResponse)
 }
 
 func (controller *TodoControllerImpl) Update(c echo.Context) error {

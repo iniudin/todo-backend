@@ -1,7 +1,7 @@
 package web
 
 type TodoCreateRequest struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	IsDone      bool   `json:"status"`
+	Title       string `json:"title"       validate:"required"`
+	Description string `json:"description" validate:"required"`
+	IsDone      bool   `json:"is_done"     validate:"required, boolean"`
 }

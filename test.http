@@ -1,2 +1,9 @@
-# GET TODO 
-GET localhost:8000/todos
+# Create new Todo 
+POST http://localhost:8000/todo/
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "Kerja cari duit!",
+  "status": false
+}
