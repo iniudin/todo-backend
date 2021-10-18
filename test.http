@@ -1,9 +1,9 @@
-# Create new Todo 
+### Create new Todo 
 POST http://localhost:8000/todo/
 Content-Type: application/json
 
 {
-  "title": "",
+  "title": "Kerja",
   "description": "Kerja cari duit!",
-  "status": false
+  "is_done": false
 }

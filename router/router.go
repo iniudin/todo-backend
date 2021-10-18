@@ -20,7 +20,7 @@ func NewRouter(server *app.Server) {
 	todoService := service.NewTodoService(todoRepository)
 	todoController := controller.NewTodoController(todoService)
 
-	todo := server.Echo.Group("/todo")
+	todo := server.Echo.Group("/todos")
 	todo.POST("/", todoController.Create)
 
 }

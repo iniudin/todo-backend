@@ -19,12 +19,12 @@ func NewTodoController(service service.TodoService) TodoController {
 }
 func (controller *TodoControllerImpl) Create(c echo.Context) error {
 	todo := new(web.TodoCreateRequest)
-	if err := c.Bind(&todo); err != nil {
+	if err := c.Bind(todo); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	if err := c.Validate(&todo); err != nil {
-		return c.JSON(http.StatusBadRequest, "Terdapat value yang kosong")
+	if err := c.Validate(todo); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	todoResponse := controller.Service.Create(c.Request().Context(), *todo)
