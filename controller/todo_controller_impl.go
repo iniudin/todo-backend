@@ -32,7 +32,17 @@ func (controller *TodoControllerImpl) Create(c echo.Context) error {
 }
 
 func (controller *TodoControllerImpl) Update(c echo.Context) error {
-	panic("not implemented") // TODO: Implement
+	todo := new(web.TodoUpdateRequest)
+	if err := c.Bind(todo); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := c.Validate(todo); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	todoResponse := controller.Service.Update(c.Request().Context(), *todo)
+	return c.JSON(http.StatusOK, todoResponse)
 }
 
 func (controller *TodoControllerImpl) Delete(c echo.Context) error {
@@ -44,5 +54,6 @@ func (controller *TodoControllerImpl) FindByID(c echo.Context) error {
 }
 
 func (controller *TodoControllerImpl) FindAll(c echo.Context) error {
-	panic("not implemented") // TODO: Implement
+	todoResponses := controller.Service.FindAll(c.Request().Context())
+	return c.JSON(http.StatusOK, todoResponses)
 }

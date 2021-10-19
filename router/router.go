@@ -22,5 +22,6 @@ func NewRouter(server *app.Server) {
 
 	todo := server.Echo.Group("/todos")
 	todo.POST("/", todoController.Create)
+	todo.GET("/", todoController.FindAll)
 
 }
