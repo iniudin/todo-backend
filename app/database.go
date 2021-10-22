@@ -9,7 +9,7 @@ import (
 )
 
 func NewDatabase() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
 	helper.PanicIfError(err)
 	db.AutoMigrate(&domain.Todo{})
 	return db
