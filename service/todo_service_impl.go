@@ -37,6 +37,12 @@ func (service *TodoServiceImpl) Create(ctx context.Context, request web.TodoCrea
 }
 
 func (service *TodoServiceImpl) Update(ctx context.Context, request web.TodoUpdateRequest) web.TodoResponse {
+	var getTodo domain.Todo
+	getTodo.ID = request.ID
+
+	_, err := service.TodoRepository.FindByID(ctx, getTodo.ID)
+	helper.PanicIfError(err)
+
 	todo, err := service.TodoRepository.Update(ctx, domain.Todo{
 		Model: gorm.Model{
 			ID: request.ID,
@@ -56,11 +62,25 @@ func (service *TodoServiceImpl) Update(ctx context.Context, request web.TodoUpda
 }
 
 func (service *TodoServiceImpl) Delete(ctx context.Context, todoID uint) {
-	panic("not implemented") // TODO: Implement
+	var todo domain.Todo
+	todo.ID = todoID
+
+	err := service.TodoRepository.Delete(ctx, todo)
+	helper.PanicIfError(err)
+
 }
 
 func (service *TodoServiceImpl) FindByID(ctx context.Context, todoID uint) web.TodoResponse {
-	panic("not implemented") // TODO: Implement
+	todo, err := service.TodoRepository.FindByID(ctx, todoID)
+	helper.PanicIfError(err)
+
+	return web.TodoResponse{
+		ID:          todo.ID,
+		Title:       todo.Title,
+		Description: todo.Description,
+		IsDone:      todo.IsDone,
+	}
+
 }
 
 func (service *TodoServiceImpl) FindAll(ctx context.Context) []web.TodoResponse {

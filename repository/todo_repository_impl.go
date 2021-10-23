@@ -24,13 +24,6 @@ func (repository *TodoRepositoryImpl) Save(ctx context.Context, todo domain.Todo
 }
 
 func (repository *TodoRepositoryImpl) Update(ctx context.Context, todo domain.Todo) (domain.Todo, error) {
-	if err := repository.
-		Server.DB.
-		WithContext(ctx).
-		First(&todo, todo.ID).Error; err != nil {
-		return todo, err
-	}
-
 	return todo, repository.
 		Server.DB.
 		WithContext(ctx).

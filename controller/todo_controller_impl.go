@@ -2,6 +2,8 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
+	"todo-backend/helper"
 	"todo-backend/model/web"
 	"todo-backend/service"
 
@@ -46,11 +48,21 @@ func (controller *TodoControllerImpl) Update(c echo.Context) error {
 }
 
 func (controller *TodoControllerImpl) Delete(c echo.Context) error {
-	panic("not implemented") // TODO: Implement
+	todoID, err := strconv.Atoi(c.Param("todoID"))
+	helper.PanicIfError(err)
+
+	controller.Service.Delete(c.Request().Context(), uint(todoID))
+	helper.PanicIfError(err)
+
+	return
 }
 
 func (controller *TodoControllerImpl) FindByID(c echo.Context) error {
-	panic("not implemented") // TODO: Implement
+	todoID, err := strconv.Atoi(c.Param("todoID"))
+	helper.PanicIfError(err)
+
+	todoResponse := controller.Service.FindByID(c.Request().Context(), uint(todoID))
+	return c.JSON(http.StatusOK, todoResponse)
 }
 
 func (controller *TodoControllerImpl) FindAll(c echo.Context) error {
