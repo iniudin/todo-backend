@@ -3,8 +3,8 @@ POST http://localhost:8000/todos/ HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Kerja",
-  "description": "Kerja cari duit!",
+  "title": "Makan",
+  "description": "Makan, biar gak laper!",
   "is_done": false
 }
 
@@ -17,12 +17,12 @@ GET http://localhost:8000/todos/ HTTP/1.1
 Content-Type: application/json
 
 ### Update a Todo 
-PUT http://localhost:8000/todos/1 HTTP/1.1
+PUT http://localhost:8000/todos/2 HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Kerja",
-  "description": "Kerja dapat duit!",
+  "title": "Selesai makan",
+  "description": "Udah makan!",
   "is_done": true
 }
 

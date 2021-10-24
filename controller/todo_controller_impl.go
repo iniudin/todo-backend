@@ -35,6 +35,10 @@ func (controller *TodoControllerImpl) Create(c echo.Context) error {
 
 func (controller *TodoControllerImpl) Update(c echo.Context) error {
 	todo := new(web.TodoUpdateRequest)
+	todoID, err := strconv.Atoi(c.Param("todoID"))
+	helper.PanicIfError(err)
+	todo.ID = uint(todoID)
+
 	if err := c.Bind(todo); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -54,7 +58,7 @@ func (controller *TodoControllerImpl) Delete(c echo.Context) error {
 	controller.Service.Delete(c.Request().Context(), uint(todoID))
 	helper.PanicIfError(err)
 
-	return
+	return c.JSON(http.StatusOK, "Todo deleted")
 }
 
 func (controller *TodoControllerImpl) FindByID(c echo.Context) error {

@@ -28,6 +28,9 @@ func NewRouter(server *app.Server) {
 
 	todo := server.Echo.Group("/todos")
 	todo.POST("/", todoController.Create)
+	todo.PUT("/:todoID", todoController.Update)
+	todo.DELETE("/:todoID", todoController.Delete)
+	todo.GET("/:todoID", todoController.FindByID)
 	todo.GET("/", todoController.FindAll)
 
 }
